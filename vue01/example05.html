@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+  <script>
+    document.addEventListener('DOMContentLoaded', function(){
+      let number_list = [2,3,4,5,6,7,8,9]
+
+      new Vue({
+        el : "#app",
+        data : {
+          myArray : number_list,
+          show : false
+        },
+        methods : {
+          numShow : function(){
+            if(this.show){
+              this.show = false;
+            }else{
+              this.show = true;
+            }
+          },
+          numUp : function(index){ // 해당 값에 +1을 해주는 함수
+            this.myArray[index]++;
+            //실제 html 반영을 할꺼면 메소드로 .
+            this.myArray.splice(index, 1, this.myArray[index] + 1); // (시작점 index, 1은 삭제할 요소갯수, myArray현재값 + 1(더해야할..)
+          },
+          numDelete : function(index){ // 해당 값을 삭제하는 함수
+            this.myArray.splice(index, 1);
+          },
+
+          numAdd : function(){ // 배열에 새로운 1을 추가하는 함수
+            this.myArray.push(1);
+          },
+
+          numSort : function(){ // 배열 안에 있는 데이터를 오름차순으로 정리하는 함수
+          // 중복 데이터 제거
+          this.myArray = this.myArray.filter(function(item, index, array){
+            return array.indexOf(item) === index; //indexOf 메서드는 배열에서 지정된 요소를 찾을 수 있는 첫 번째 인덱스를 반환하고 존재하지 않으면 -1을 반환
+          })
+          //정렬
+            this.myArray.sort(function(a,b){
+              return (a < b ? -1 : 1); //  a < b가 참이면 -1로 , 거짓이면 1로 ...-1은 오름차순 , 1은 내림차순을 뜻한다
+            });
+          },
+        }
+      })
+    })
+  </script>  
+  <div id="app">
+    <h2>숫자 배열 조작과 구구단 출력</h2>
+    <ul>
+      <li v-for="(item, index) in myArray">
+        {{item}}
+        <button @click="numUp(index)" >변경</button>
+        <button @click="numDelete(index)">삭제</button>
+      </li>
+      <br>
+      <button @click="numAdd()">추가</button>
+      <button @click="numSort()">정렬</button>
+      <button @click="numShow()">구구단 보이기</button>
+    </ul>
+
+    <ul v-if="show">
+      <li v-for="item in myArray">
+        <p v-for="i in 9">
+          {{item}} X {{i}} = {{item * i}}
+        </p>
+      </li>
+    </ul>
+  </div>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<script>
+  document.addEventListener('DOMContentLoaded', function(){
+    let data = [1,2,3,4,5,6,7,8,9];
+
+    new Vue({
+      el : '#app',
+      data : {
+        originData : [1,2,3,4,5,6,7,8,9],
+        myArray : [1,2,3,4,5,6,7,8,9]
+      },
+      methods : {
+        eventData1 : function(){
+          this.myArray = this.originData.filter(function(value){
+            return value % 2 == 0;
+          })
+        },
+        eventData2 : function(){
+          this.myArray = this.originData.filter(function(value){
+            return value % 2 !== 0;
+          })
+        }
+      }
+      })
+    });
+</script>
+<div id="app">
+  <ul>
+    <!--myArray가 담겨있는 item에서 2로 나눴을때 0이 나오는 수만 나오는 태그.-->
+    <li v-for="item in myArray" v-if="item % 2 == 0">{{ item }}</li> <!-- 값이 2의 배수인 경우에만 태그를 구성한다. -->
+    <!-- if에 변수나 프로퍼티를 사용하지 않고 간단한 표현식도 가능. true or false -->
+  </ul>
+    <hr>
+    <ul>
+      <li v-for="item in myArray">{{item}}</li>
+    </ul>
+    <button v-on:click="eventData1()">짝수만 표시</button>
+    <button v-on:click="eventData2()">홀수만 표시</button>
+</div>
+</body>
+</html>
